@@ -43,6 +43,8 @@ function addData (request,respond) {
         projectData['date']= request.body.date;
         projectData['temp']= request.body.temp;
         projectData['tempKelvin']= request.body.tempKelvin;
-        projectData['feel']= request.body.feel
+        projectData['feel']= request.body.feel;
+        projectData['country']= request.body.country;
+        projectData['city']= request.body.city;
     respond.send(projectData);
 }

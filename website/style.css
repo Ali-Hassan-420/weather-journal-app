@@ -126,3 +126,7 @@ textarea {
     padding-top: 10px;
     resize: none;
 }
+
+#country {
+    font-size: 15px;
+}

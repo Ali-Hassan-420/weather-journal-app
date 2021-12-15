@@ -29,7 +29,7 @@ function mainFunction() {
 
     .then(function(data){
         console.log(data)
-        postData('/add', {date:d, temp:kelvinToCelsius(data.list[0].main.temp), tempKelvin:data.list[0].main.temp, feel:feeling.value})
+        postData('/add', {date:d, temp:kelvinToCelsius(data.list[0].main.temp), tempKelvin:data.list[0].main.temp, feel:feeling.value, city:data.city.name, country:data.city.country})
         updateUI()
     })
 }
@@ -58,7 +58,9 @@ const postData = async (url='', data = {}) => {
             temp: data.temp,
             tempKelvin: data.tempKelvin,
             date: data.date,
-            feel: data.feel
+            feel: data.feel,
+            city: data.city,
+            country: data.country
         })  
     });
 
@@ -81,6 +83,7 @@ const updateUI = async () => {
         content.innerText = `i'm feeling ${allData.feel}`;
         document.getElementById('temp').innerHTML = `${allData.temp} °C`;
         document.getElementById('tempKelvin').innerHTML = `${allData.tempKelvin} °K`;
+        document.getElementById('country').innerHTML = `${allData.city}, ${allData.country}`;
     } catch (error) {
         console.log("error", error)
     }
