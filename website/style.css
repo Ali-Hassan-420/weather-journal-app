@@ -108,8 +108,21 @@ body {
 #temp {
     font-size: 60px;
     color: black;
+    margin-bottom: -5px;
 }
 
 #content {
     font-size: 15px;
+    padding-top: 10px;
+}
+
+#tempkelvin {
+    padding-bottom: 5px;
+}
+
+textarea {
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    padding-top: 10px;
+    resize: none;
 }

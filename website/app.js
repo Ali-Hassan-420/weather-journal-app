@@ -20,16 +20,16 @@ const API = 'http://api.openweathermap.org/data/2.5/forecast?zip='
 const key = '&appid=f6afba687400634f89a301115bcebca5'
 
 // Event listener to add function to existing HTML DOM element
-button.addEventListener('click',changeDate);
+button.addEventListener('click',mainFunction);
 
 /* Function called by event listener */
-function changeDate() {
+function mainFunction() {
     const newZip = zip.value
-    getWeather(API,newZip,key)
+    getWeather(API, newZip, key)
 
     .then(function(data){
         console.log(data)
-        postData('/add', {date:d, temp:data.list[0].main.temp, content:feeling})
+        postData('/add', {date:d, temp:kelvinToCelsius(data.list[0].main.temp), tempKelvin:data.list[0].main.temp, feel:feeling.value})
         updateUI()
     })
 }
@@ -52,10 +52,16 @@ const postData = async (url='', data = {}) => {
         method: 'POST',
         credentials: 'same-origin',
         headers: {
-            'content.type': 'application/json'
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+            temp: data.temp,
+            tempKelvin: data.tempKelvin,
+            date: data.date,
+            feel: data.feel
+        })  
     });
+
     try {
         const newData = await respond.json();
         console.log(newData);
@@ -70,11 +76,18 @@ const postData = async (url='', data = {}) => {
 const updateUI = async () => {
     const request = await fetch('/all');
     try {
-        const allData = await request.json
-        date.innerText = newDate
-        content.innerText = `i'm feeling ${feeling.value}`
-        tempreture.innerText = `${allData[0].temp} °C`
+        const allData = await request.json();
+        date.innerText = newDate;
+        content.innerText = `i'm feeling ${allData.feel}`;
+        document.getElementById('temp').innerHTML = `${allData.temp} °C`;
+        document.getElementById('tempKelvin').innerHTML = `${allData.tempKelvin} °K`;
     } catch (error) {
         console.log("error", error)
     }
+}
+
+//*FUNCTION TO CONVERT KELVIN TO CELSIUS*//
+
+function kelvinToCelsius(kelvin) {
+    return(kelvin - 273.15).toFixed(2)
 }
